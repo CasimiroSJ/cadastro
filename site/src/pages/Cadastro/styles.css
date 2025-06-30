@@ -1,0 +1,19 @@
+.cadastro-conteiner{
+    padding-inline: 15%;
+    display: flex;
+    flex-direction: column;
+    min-height: 90vh;
+    align-items: center;
+}
+.cadastro-conteiner h2{
+    font-size: 2rem;
+    font-family: sans-serif;
+    margin-bottom: 3rem;
+}
+.cadastro-conteiner form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    margin-bottom: 4rem;
+}

@@ -1,0 +1,26 @@
+.login-conteiner{
+    display: flex;
+    flex-direction: column;
+    padding-inline: 15%;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+.login-conteiner h2{
+    font-size: 2rem;
+    font-family: sans-serif;
+    margin-bottom: 3rem;
+}
+.login-conteiner form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+.login-conteiner .botao-conteiner{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
