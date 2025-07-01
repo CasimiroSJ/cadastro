@@ -1,24 +1,32 @@
 import axios from "axios";
 
-export async function login(email, password) {
-  const dados = { email, password };
-
+export const login = async (email, password) => {
   try {
-    const res = await axios.post("http://codexa-1.onrender.com/auth/login", dados);
-    const token = res.data.token;
+    const res = await axios.post("http://localhost:3001/auth/login", {
+      email,
+      password
+    });
 
-    // Salvar o token (opcional)
-    localStorage.setItem("token", token);
+    // Salvar o token no localStorage (opcional)
+    if (res.data.token) {
+      localStorage.setItem("token", res.data.token);
+    }
 
     return {
       success: true,
-      message: res.data.message,
-      token: token,
+      message: res.data.message
     };
   } catch (err) {
+    if (err.response && err.response.data && err.response.data.error) {
+      return {
+        success: false,
+        message: err.response.data.error
+      };
+    }
+
     return {
       success: false,
-      message: err.response?.data?.message || "Erro ao tentar fazer login.",
+      message: "Erro na conexão com o servidor."
     };
   }
-}
+};

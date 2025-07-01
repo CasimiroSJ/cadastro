@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ Importar hook de navegação
 import axios from 'axios';
 import BotaoPrimario from '../../components/BotaoPrimario';
 import EntradaTexto from '../../components/EntradaTexto';
 import './styles.css';
 
 function Cadastro() {
+  const navigate = useNavigate(); // ✅ Criar função de navegação
+
   const [formulario, setFormulario] = useState({
     username: '',
     email: '',
@@ -24,12 +27,31 @@ function Cadastro() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (formulario.password !== formulario.confirmpassword) {
+      setResposta('As senhas não coincidem!');
+      return;
+    }
+
     try {
-      const res = await axios.post('https://codexa-1.onrender.com/auth/register', formulario);
-      setResposta(res.data.msg || 'Cadastro realizado com sucesso!');
+      const res = await axios.post('http://localhost:3001/auth/register', formulario);
+
+      if (res.data.message) {
+        setResposta(res.data.message);
+        setFormulario({
+          username: '',
+          email: '',
+          password: '',
+          confirmpassword: ''
+        });
+
+        // ✅ Aguarda 1 segundo e redireciona para login
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
+      }
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.msg) {
-        setResposta(err.response.data.msg);
+      if (err.response && err.response.data && err.response.data.error) {
+        setResposta(err.response.data.error);
       } else {
         setResposta('Erro na conexão com o servidor.');
       }
@@ -39,7 +61,7 @@ function Cadastro() {
   return (
     <div className="cadastro-conteiner">
       <h2>Tela de Cadastro</h2>
-      
+
       <form onSubmit={handleSubmit}>
         <EntradaTexto
           tipoTexto="text"
@@ -76,7 +98,7 @@ function Cadastro() {
         <BotaoPrimario tituloBotao="Cadastrar" />
       </form>
 
-      {resposta && <p>{resposta}</p>}
+      {resposta && <p className="mensagem-resposta">{resposta}</p>}
     </div>
   );
 }

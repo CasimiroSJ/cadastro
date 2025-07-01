@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { login } from "../../api/login";
 import EntradaTexto from "../../components/EntradaTexto";
 import BotaoPrimario from "../../components/BotaoPrimario";
 import './styles.css';
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [resposta, setResposta] = useState('');
@@ -16,8 +18,11 @@ function Login() {
 
     if (result.success) {
       setResposta(result.message);
-      // Redirecionar, se quiser
-      // window.location.href = "/dashboard";
+      // Redirecionar após login bem-sucedido
+      //window.location.href = "../Dashboard/Dashboard";
+       setTimeout(() => {
+          navigate('/Dashboard');
+        }, 0);
     } else {
       setResposta(result.message);
     }
@@ -34,6 +39,7 @@ function Login() {
           nomeEntrada="email"
           aoMudar={(e) => setEmail(e.target.value)}
         />
+
         <EntradaTexto
           tipoTexto="password"
           textoEscondido="Digite sua senha"
@@ -41,15 +47,17 @@ function Login() {
           nomeEntrada="password"
           aoMudar={(e) => setPassword(e.target.value)}
         />
+
         <div className="botao-conteiner">
-          <BotaoPrimario tituloBotao="Entrar" tipo="submit" />
+          <BotaoPrimario tituloBotao="Entrar" />
           <BotaoPrimario
             tituloBotao="Cadastrar"
             evento={() => window.open("/cadastro", "_self")}
           />
         </div>
       </form>
-      {resposta && <p>{resposta}</p>}
+
+      {resposta && <p className="mensagem-resposta">{resposta}</p>}
     </div>
   );
 }
