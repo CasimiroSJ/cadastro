@@ -10,10 +10,10 @@ function GerenciadorRota(){
     return(
         <BrowserRouter>
         <Routes>
-            <Route path="/Dashboard" element={<Dashboard/>}/>
-            <Route path="/index" element={<Principal/>}/>
+            <Route path="/" element={<Principal/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/cadastro" element={<Cadastro/>}/>
+            <Route path="/Dashboard" element={<Dashboard/>}/>
         </Routes>
         </BrowserRouter>
     );
